@@ -1,0 +1,7 @@
+__pycache__
+archive
+scripts
+venv
+
+config.py
+keys.py
