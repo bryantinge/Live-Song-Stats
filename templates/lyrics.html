@@ -12,11 +12,12 @@
 </head>
 
 <html>
-  <body>
+  <body onload='getTrack(token);'>
     <main role='main' class='container-fluid text-center'>
       <div class='row'>
 
         <div class='col-md-4 py-4'>
+          <div id='albumImageLoader' class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
           <img id='scriptAlbumImage' class='album-art mx-auto' src=''></img>
           <div class='track-iden mx-auto'>
             <div id='scriptTrack' class='text-left mt-4 mb-2'></div>
@@ -30,15 +31,20 @@
             Fetch Current Track
           </button>
           <br>
-          <div id='lyricBody' class='lyrics mt-4 px-4'></div>
           <div id='lyricLoader' class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+          <div id='lyricBody' class='lyrics mt-4 px-4'></div>
         </div>
 
         <div class='col-md-4 py-4'>
-          <div class='track-analysis mx-auto'>
-            <div id='scriptKey' class='text-left mt-4 mb-2'></div>
+          <div id='analysisLoader' class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+          <div id='trackAnalysis' class='track-analysis'>
+            <div class='mx-auto my-2'>Song Attributes:</div>
+            <div class='track-analysis-body mx-auto'>
+              <div id='scriptKey' class='text-left mt-2 mb-2'></div>
+              <div id='scriptTempo' class='text-left mt-2 mb-2'></div>
+            </div>
           </div>
-        </div>        
+        </div>
 
       </div>
     </main>

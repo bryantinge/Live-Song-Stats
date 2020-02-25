@@ -1,13 +1,10 @@
 import os
 import json
 import requests
-import datetime
-import math
 from flask import Flask, request, redirect, render_template, session, url_for
 from urllib.parse import quote
 from utils import get_env
 from genius import request_song_info, scrape_song_url
-from keys import keys, modes
 
 app = Flask(__name__)
 

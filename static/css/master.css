@@ -4,6 +4,7 @@ html {
 
 body {
   background-color: #e9ecef;
+  background-image: url('../images/dotnoise-light-grey.png');
 }
 
 .btn:focus {
@@ -14,13 +15,8 @@ body {
   height: 100vh;
 }
 
-.col-lyrics {
-  background-color: #dee1e3
-}
-
-.lyrics {
-  height: 83vh;
-  overflow: auto;
+.album-art {
+  box-shadow: 10px 10px 5px grey;
   display: none;
 }
 
@@ -29,9 +25,24 @@ body {
   text-align: center;
 }
 
-.album-art {
-  box-shadow: 10px 10px 5px grey;
+.col-lyrics {
+  background-color: #dee1e3;
+  background-image: url('../images/dotnoise-light-grey.png');
+}
+
+.lyrics {
+  height: 83vh;
+  overflow: auto;
   display: none;
+}
+
+.track-analysis {
+  display: none;
+}
+
+.track-analysis-body {
+  width: 115px;
+  text-align: center;
 }
 
 .lds-ellipsis {

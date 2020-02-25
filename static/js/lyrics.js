@@ -7,7 +7,10 @@ function emptyDOM(identity){
         emptyDOM('#scriptTrack');
         emptyDOM('#scriptArtist');
         emptyDOM('#scriptAlbum');
-        emptyDOM('#lyricBody'); 
+        emptyDOM('#scriptAlbumImage');
+        emptyDOM('#lyricBody');
+        emptyDOM('#scriptKey');
+        emptyDOM('#scriptTempo');
     }
     $(identity).empty();
 }
@@ -15,19 +18,29 @@ function emptyDOM(identity){
 function podcast(){
     emptyDOM('all');
     editDOM('#lyricBody', 'Listening to podcast');
-    $('#lyricLoader').hide();
+    $('#scriptAlbumImage').hide();
     $('#lyricBody').show();
+    $('#trackAnalysis').hide();
+    $('#albumImageLoader').hide();
+    $('#lyricLoader').hide();
+    $('#analysisLoader').hide();  
 }
 
 function noTrack(){
     emptyDOM('all');
-    editDOM('#lyricBody', 'No track currently playing');
+    editDOM('#lyricBody', 'No Track Currently Playing');
+    $('#scriptAlbumImage').hide();
+    $('#lyricBody').show();
+    $('#trackAnalysis').hide();
+    $('#albumImageLoader').hide();
+    $('#lyricLoader').hide();
+    $('#analysisLoader').hide();
 }
 
 function format(track){
-    track = track.split('-')[0];
-    track = track.replace(/[^\w\s]/gi, '');
-    track = track.toLowerCase();
+    var track = track.split('-')[0];
+    var track = track.replace(/[^\w\s]/gi, '');
+    var track = track.toLowerCase();
     return track;
 }
 
@@ -53,7 +66,7 @@ function getTrack(token){
     })
     .then(data => {
         if(data.currently_playing_type == 'track'){
-            extractTrack(data);
+            extractTrack(token, data);
         }
         else if(data.currently_playing_type == 'episode'){
             podcast();
@@ -67,25 +80,55 @@ function getTrack(token){
     })
 }
 
-function extractTrack(track){
-    trackId = track.item.id;
-    trackName = track.item.name;
-    trackNameRaw = format(trackName);
-    artistName = track.item.artists[0].name;
-    albumName = track.item.album.name;
-    albumImageURL = track.item.album.images[1]['url'];
+function getAnalysis(token, trackID){
+    fetch(`https://api.spotify.com/v1/audio-analysis/${trackID}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        extractAnalysis(token, data);
+    })
+}
+
+function extractTrack(token, data){
+    var trackID = data.item.id;
+    var trackName = data.item.name;
+    var trackNameRaw = format(trackName);
+    var artistName = data.item.artists[0].name;
+    var albumName = data.item.album.name;
+    var albumImageURL = data.item.album.images[1]['url'];
     if (lastTrack != trackName){
         $('#lyricBody').hide();
+        $('#trackAnalysis').hide();
         $('#lyricLoader').show();
+        $('#analysisLoader').show();
         emptyDOM('all');
         editDOM('#scriptTrack', 'Song: ' + trackName);
         editDOM('#scriptArtist', 'Artist: ' + artistName);
         editDOM('#scriptAlbum', 'Album: ' + albumName);
         $('#scriptAlbumImage').attr('src', albumImageURL);
+        $('#albumImageLoader').hide();
         $('#scriptAlbumImage').show();
+        getAnalysis(token, trackID);
         getLyrics(trackNameRaw, artistName);
     }
     lastTrack = trackName;
+}
+
+function extractAnalysis(token, data){
+    var trackKeyRaw = String(data.track.key);
+    var trackModeRaw = String(data.track.mode);
+    var trackTempoRaw = data.track.tempo;
+    var trackKey = keyList[trackKeyRaw] + ' ' + modeList[trackModeRaw];
+    var trackTempo = String(Math.round(parseFloat(trackTempoRaw)));
+    editDOM('#scriptKey', 'Key: ' + trackKey);
+    editDOM('#scriptTempo', 'Tempo: ' + trackTempo);
+    $('#analysisLoader').hide();
+    $('#trackAnalysis').show();
 }
 
 function getLyrics(track, artist){
@@ -94,7 +137,7 @@ function getLyrics(track, artist){
         artistName: artist
         }, 
         function(data){
-            lyrics = $.parseJSON(data);
+            var lyrics = $.parseJSON(data);
             if(typeof lyrics == 'string'){
                 lyrics = lyrics.replace(/\n/g, '<br />');
                 editDOM('#lyricBody', lyrics);
@@ -108,13 +151,33 @@ function getLyrics(track, artist){
     )  
 }
 
+var keyList = {
+    '-1': 'No Key Found',
+    '0': 'C',
+    '1': 'C#',
+    '2': 'D',
+    '3': 'D#',
+    '4': 'E',
+    '5': 'F',
+    '6': 'F#',
+    '7': 'G',
+    '8': 'G#',
+    '9': 'A',
+    '10': 'A#',
+    '11': 'B',
+}
+
+var modeList = {
+    '0': 'Minor',
+    '1': 'Major',
+}
+
 var base_url = window.location.origin;
+var token = getToken();
 let lastTrack = '';
-token = getToken();
 
 $(document).ready(function(){
-    getTrack(token);
-    $('#getTrack').click(function() {
+    $('#getTrack').click(function(){
         getTrack(token);
     })
 })
