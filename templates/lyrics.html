@@ -15,11 +15,10 @@
   <body onload='getTrack(token);'>
     <main role='main' class='container-fluid text-center'>
       <div class='row'>
-
         <div class='col-md-4 py-4'>
           <div id='albumImageLoader' class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-          <img id='scriptAlbumImage' class='album-art mx-auto' src=''></img>
-          <div class='track-iden mx-auto'>
+          <img id='scriptAlbumImage' class='album-art mx-auto mt-3' src=''></img>
+          <div id='trackIden' class='track-iden mx-auto'>
             <div id='scriptTrack' class='text-left mt-4 mb-2'></div>
             <div id='scriptArtist' class='text-left my-2'></div>
             <div id='scriptAlbum' class='text-left mt-2 mb-4'></div>
@@ -27,26 +26,29 @@
         </div> 
 
         <div class='col-md-4 col-lyrics py-4'>
-          <button type='button' id='getTrack' class='btn btn-lg btn-success mx-auto my-auto' onclick='this.blur();'>
+          <button type='button' id='getTrack' class='btn btn-lg btn-success shadow mx-auto my-auto' onclick='this.blur();'>
             Fetch Current Track
           </button>
           <br>
           <div id='lyricLoader' class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-          <div id='lyricBody' class='lyrics mt-4 px-4'></div>
+          <div id='lyricBody' class='lyrics mt-4'></div>
         </div>
 
-        <div class='col-md-4 py-4'>
-          <div id='analysisLoader' class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-          <div id='trackAnalysis' class='track-analysis'>
-            <div class='mx-auto my-2'>Song Attributes:</div>
+        <div class='col-md-4 pt-5 pb-4'>
+          <div id='analysisLoader' class='lds-ellipsis my-4'><div></div><div></div><div></div><div></div></div>
+          <div id='trackAnalysis' class='track-analysis m-5'>
+            <div class='track-analysis-title mx-auto my-2'>Song Attributes:</div>
             <div class='track-analysis-body mx-auto'>
               <div id='scriptKey' class='text-left mt-2 mb-2'></div>
               <div id='scriptTempo' class='text-left mt-2 mb-2'></div>
             </div>
           </div>
         </div>
-
       </div>
+      <a class='btn btn-lg btn-secondary top-right sticky shadow' 
+      href='https://github.com/bryantinge/Live-Song-Stats' target='_blank'>
+        Github
+      </a>
     </main>
   </body>
 </html>

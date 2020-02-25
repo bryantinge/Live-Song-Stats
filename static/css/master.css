@@ -23,6 +23,7 @@ body {
 .track-iden {
   width: 290px;
   text-align: center;
+  display: none;
 }
 
 .col-lyrics {
@@ -34,15 +35,41 @@ body {
   height: 83vh;
   overflow: auto;
   display: none;
+  padding-left: 9%;
+  padding-right: 5%;
 }
 
 .track-analysis {
   display: none;
 }
 
+.track-analysis-title {
+  width: 115px;
+  text-align: center;
+}
+
 .track-analysis-body {
   width: 115px;
   text-align: center;
+}
+
+.btn.top-right {
+  width: 200px;
+  position: absolute;
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  text-align: center;
+}
+
+.btn.shadow {
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.btn.sticky {
+  position: fixed;
 }
 
 .lds-ellipsis {

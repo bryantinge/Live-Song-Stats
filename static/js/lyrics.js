@@ -19,22 +19,24 @@ function podcast(){
     emptyDOM('all');
     editDOM('#lyricBody', 'Listening to podcast');
     $('#scriptAlbumImage').hide();
-    $('#lyricBody').show();
+    $('#trackIden').hide();
     $('#trackAnalysis').hide();
     $('#albumImageLoader').hide();
     $('#lyricLoader').hide();
-    $('#analysisLoader').hide();  
+    $('#analysisLoader').hide();
+    $('#lyricBody').fadeIn();  
 }
 
 function noTrack(){
     emptyDOM('all');
     editDOM('#lyricBody', 'No Track Currently Playing');
     $('#scriptAlbumImage').hide();
-    $('#lyricBody').show();
+    $('#trackIden').hide();
     $('#trackAnalysis').hide();
     $('#albumImageLoader').hide();
     $('#lyricLoader').hide();
     $('#analysisLoader').hide();
+    $('#lyricBody').fadeIn();
 }
 
 function format(track){
@@ -55,7 +57,7 @@ function getToken(){
     })
 }
 
-function getTrack(token){
+function getTrack(){
     fetch('https://api.spotify.com/v1/me/player/currently-playing', {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -66,7 +68,7 @@ function getTrack(token){
     })
     .then(data => {
         if(data.currently_playing_type == 'track'){
-            extractTrack(token, data);
+            extractTrack(data);
         }
         else if(data.currently_playing_type == 'episode'){
             podcast();
@@ -80,7 +82,7 @@ function getTrack(token){
     })
 }
 
-function getAnalysis(token, trackID){
+function getAnalysis(trackID){
     fetch(`https://api.spotify.com/v1/audio-analysis/${trackID}`, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -90,11 +92,11 @@ function getAnalysis(token, trackID){
         return response.json();
     })
     .then(data => {
-        extractAnalysis(token, data);
+        extractAnalysis(data);
     })
 }
 
-function extractTrack(token, data){
+function extractTrack(data){
     var trackID = data.item.id;
     var trackName = data.item.name;
     var trackNameRaw = format(trackName);
@@ -102,24 +104,27 @@ function extractTrack(token, data){
     var albumName = data.item.album.name;
     var albumImageURL = data.item.album.images[1]['url'];
     if (lastTrack != trackName){
+        $('#scriptAlbumImage').hide();
+        $('#trackIden').hide();
         $('#lyricBody').hide();
         $('#trackAnalysis').hide();
-        $('#lyricLoader').show();
-        $('#analysisLoader').show();
+        $('#lyricLoader').fadeIn();
+        $('#analysisLoader').fadeIn();
         emptyDOM('all');
         editDOM('#scriptTrack', 'Song: ' + trackName);
         editDOM('#scriptArtist', 'Artist: ' + artistName);
         editDOM('#scriptAlbum', 'Album: ' + albumName);
         $('#scriptAlbumImage').attr('src', albumImageURL);
         $('#albumImageLoader').hide();
-        $('#scriptAlbumImage').show();
-        getAnalysis(token, trackID);
+        $('#scriptAlbumImage').fadeIn();
+        $('#trackIden').fadeIn();
+        getAnalysis(trackID);
         getLyrics(trackNameRaw, artistName);
     }
     lastTrack = trackName;
 }
 
-function extractAnalysis(token, data){
+function extractAnalysis(data){
     var trackKeyRaw = String(data.track.key);
     var trackModeRaw = String(data.track.mode);
     var trackTempoRaw = data.track.tempo;
@@ -128,7 +133,7 @@ function extractAnalysis(token, data){
     editDOM('#scriptKey', 'Key: ' + trackKey);
     editDOM('#scriptTempo', 'Tempo: ' + trackTempo);
     $('#analysisLoader').hide();
-    $('#trackAnalysis').show();
+    $('#trackAnalysis').fadeIn();
 }
 
 function getLyrics(track, artist){
@@ -146,7 +151,7 @@ function getLyrics(track, artist){
                 editDOM('#lyricBody', 'No lyrics found');
             }
             $('#lyricLoader').hide();
-            $('#lyricBody').show();
+            $('#lyricBody').fadeIn();
         }
     )  
 }
