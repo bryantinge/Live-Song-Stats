@@ -34,7 +34,13 @@
           <div id='lyricBody' class='lyrics mt-4'></div>
         </div>
 
-        <div class='col-md-4 pt-5 pb-4'>
+        <div class='col-md-4 pt-3 pb-4'>
+          <div class='text-right'>
+            <a class='btn btn-secondary pull-right shadow' 
+              href="{{ url_for('logout') }}">
+              Log Out
+            </a>
+          </div>
           <div id='analysisLoader' class='lds-ellipsis my-4'><div></div><div></div><div></div><div></div></div>
           <div id='trackAnalysis' class='track-analysis mx-auto m-5'>
             <div id='scriptKey' class='text-left mt-2 mb-2'></div>
@@ -42,7 +48,7 @@
           </div>
         </div>
       </div>
-      <a class='btn btn-secondary top-right sticky shadow' 
+      <a class='btn btn-secondary top-left sticky shadow' 
       href='https://github.com/bryantinge/Live-Song-Stats' target='_blank'>
         Github
       </a>

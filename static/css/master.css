@@ -70,14 +70,13 @@ body {
   text-align: center;
 }
 
-.btn.top-right {
+.btn.top-left {
   width: 200px;
   position: absolute;
   top: 25px;
-  right: -50px;
-  left: auto;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
+  left: -50px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
   text-align: center;
 }
 
