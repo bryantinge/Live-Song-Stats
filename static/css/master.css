@@ -18,6 +18,7 @@ body {
 .album-art {
   box-shadow: 10px 10px 5px grey;
   display: none;
+  margin-top: 16%;
 }
 
 .track-iden {
@@ -36,7 +37,28 @@ body {
   overflow: auto;
   display: none;
   padding-left: 9%;
-  padding-right: 5%;
+  padding-right: 6.5%;
+}
+
+#lyricBody::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+#lyricBody::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #e9ecef;
+  background-image: url('../images/dotnoise-light-grey.png');
+}
+
+#lyricBody::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #6c757d;
 }
 
 .track-analysis {
