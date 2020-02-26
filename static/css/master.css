@@ -65,12 +65,7 @@ body {
   display: none;
 }
 
-.track-analysis-title {
-  width: 115px;
-  text-align: center;
-}
-
-.track-analysis-body {
+.track-analysis {
   width: 115px;
   text-align: center;
 }
