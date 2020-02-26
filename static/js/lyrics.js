@@ -15,28 +15,15 @@ function emptyDOM(identity){
     $(identity).empty();
 }
 
-function podcast(){
-    emptyDOM('all');
-    editDOM('#lyricBody', 'Listening to podcast');
-    $('#scriptAlbumImage').hide();
-    $('#trackIden').hide();
-    $('#trackAnalysis').hide();
-    $('#albumImageLoader').hide();
-    $('#lyricLoader').hide();
-    $('#analysisLoader').hide();
-    $('#lyricBody').fadeIn();  
-}
-
 function noTrack(){
     emptyDOM('all');
-    editDOM('#lyricBody', 'No Track Currently Playing');
     $('#scriptAlbumImage').hide();
     $('#trackIden').hide();
+    $('#lyricBody').hide();
     $('#trackAnalysis').hide();
     $('#albumImageLoader').hide();
-    $('#lyricLoader').hide();
+    $('#lyricLoader').fadeIn();
     $('#analysisLoader').hide();
-    $('#lyricBody').fadeIn();
 }
 
 function format(track){
@@ -69,9 +56,6 @@ function getTrack(){
     .then(data => {
         if(data.currently_playing_type == 'track'){
             extractTrack(data);
-        }
-        else if(data.currently_playing_type == 'episode'){
-            podcast();
         }
         else{
             noTrack();
@@ -128,7 +112,7 @@ function extractAnalysis(data){
     var trackKeyRaw = String(data.track.key);
     var trackModeRaw = String(data.track.mode);
     var trackTempoRaw = data.track.tempo;
-    var trackKey = keyList[trackKeyRaw] + ' ' + modeList[trackModeRaw];
+    var trackKey = keyArray[trackKeyRaw] + ' ' + modeList[trackModeRaw];
     var trackTempo = String(Math.round(parseFloat(trackTempoRaw)));
     editDOM('#scriptKey', 'Key: ' + trackKey);
     editDOM('#scriptTempo', 'Tempo: ' + trackTempo);
@@ -156,7 +140,7 @@ function getLyrics(track, artist){
     )  
 }
 
-var keyList = {
+var keyArray = {
     '-1': 'No Key Found',
     '0': 'C',
     '1': 'C#',
