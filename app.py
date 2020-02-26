@@ -52,6 +52,7 @@ def login():
     url_args = '&'.join([f'{key}={quote(val)}'
                          for key, val in auth_query_parameters.items()])
     auth_url = f'{SPOTIFY_AUTH_URL}/?{url_args}'
+    print(REDIRECT_URI)
     return redirect(auth_url)
 
 
