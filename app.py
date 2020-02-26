@@ -38,7 +38,8 @@ auth_query_parameters = {
     'scope': SCOPE,
     'state': STATE,
     'show_dialog': 'false',
-    'client_id': SPOTIFY_CLIENT_ID}
+    'client_id': SPOTIFY_CLIENT_ID
+}
 
 
 @app.route('/')
