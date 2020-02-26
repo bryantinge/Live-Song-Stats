@@ -24,9 +24,8 @@ API_VERSION = 'v1'
 SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}/{API_VERSION}'
 
 # Server-side Parameters
-CLIENT_SIDE_URL = 'http://127.0.0.1'
-PORT = 8080
-REDIRECT_URI = f'{CLIENT_SIDE_URL}:{PORT}/callback/'
+CLIENT_SIDE_URL = get_env('CLIENT_SIDE_URL')
+REDIRECT_URI = f'{CLIENT_SIDE_URL}/callback/'
 SCOPE = 'user-read-currently-playing'
 STATE = ''
 SHOW_DIALOG_bool = True
@@ -49,7 +48,7 @@ def index():
 
 @app.route('/login')
 def login():
-    # Auth Step 1: Authorization
+    # Auth: Authorization
     url_args = '&'.join([f'{key}={quote(val)}'
                          for key, val in auth_query_parameters.items()])
     auth_url = f'{SPOTIFY_AUTH_URL}/?{url_args}'
@@ -58,7 +57,7 @@ def login():
 
 @app.route('/callback/')
 def callback():
-    # Auth Step 4: Requests refresh and access tokens
+    # Auth: Requests refresh and access tokens
     auth_token = request.args['code']
     code_payload = {
         'grant_type': 'authorization_code',
@@ -69,14 +68,14 @@ def callback():
     }
     post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload)
 
-    # Auth Step 5: Tokens are Returned to Application
+    # Auth: Tokens are Returned to Application
     response_data = json.loads(post_request.text)
     session['access_token'] = response_data['access_token']
     # refresh_token = response_data['refresh_token']
     # token_type = response_data['token_type']
     # expires_in = response_data['expires_in']
 
-    # Auth Step 6: Use the access token to access Spotify API
+    # Auth: Use the access token to access Spotify API
     session['authorization_header'] = {
         'Authorization': f'Bearer {session["access_token"]}'
     }
