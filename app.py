@@ -7,10 +7,7 @@ from utils import get_env
 from genius import request_song_info, scrape_song_url
 
 app = Flask(__name__)
-
-# SECRET_KEY = os.urandom(32)
-SECRET_KEY = '8hf7d0shf63hfdbs93nfnd4eosuvx2ot'
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = os.urandom(32)
 
 # Client parameters
 GENIUS_CLIENT_TOKEN = get_env('GENIUS_CLIENT_TOKEN')
@@ -128,5 +125,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.debug = True
     app.run()
