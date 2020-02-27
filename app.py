@@ -48,7 +48,6 @@ def index():
 
 @app.route('/login')
 def login():
-    # Auth: Authorization
     url_args = '&'.join([f'{key}={quote(val)}'
                          for key, val in auth_query_parameters.items()])
     auth_url = f'{SPOTIFY_AUTH_URL}/?{url_args}'
@@ -59,6 +58,7 @@ def login():
 def callback():
     # Auth: Requests refresh and access tokens
     auth_token = request.args['code']
+    print(auth_token)
     code_payload = {
         'grant_type': 'authorization_code',
         'code': str(auth_token),
@@ -71,9 +71,9 @@ def callback():
     # Auth: Tokens are Returned to Application
     response_data = json.loads(post_request.text)
     session['access_token'] = response_data['access_token']
-    # refresh_token = response_data['refresh_token']
-    # token_type = response_data['token_type']
-    # expires_in = response_data['expires_in']
+    refresh_token = response_data['refresh_token']
+    token_type = response_data['token_type']
+    expires_in = response_data['expires_in']
 
     # Auth: Use the access token to access Spotify API
     session['authorization_header'] = {
