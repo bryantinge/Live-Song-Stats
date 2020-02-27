@@ -51,6 +51,8 @@ def login():
     url_args = '&'.join([f'{key}={quote(val)}'
                          for key, val in auth_query_parameters.items()])
     auth_url = f'{SPOTIFY_AUTH_URL}/?{url_args}'
+    print(url_args)
+    print(auth_url)
     return redirect(auth_url)
 
 
@@ -58,7 +60,6 @@ def login():
 def callback():
     # Auth: Requests refresh and access tokens
     auth_token = request.args['code']
-    print(auth_token)
     code_payload = {
         'grant_type': 'authorization_code',
         'code': str(auth_token),
