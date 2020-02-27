@@ -8,7 +8,8 @@ from genius import request_song_info, scrape_song_url
 
 app = Flask(__name__)
 
-SECRET_KEY = os.urandom(32)
+# SECRET_KEY = os.urandom(32)
+SECRET_KEY = '8hf7d0shf63hfdbs93nfnd4eosuvx2ot'
 app.config['SECRET_KEY'] = SECRET_KEY
 
 # Client parameters
@@ -51,7 +52,6 @@ def login():
     url_args = '&'.join([f'{key}={quote(val)}'
                          for key, val in auth_query_parameters.items()])
     auth_url = f'{SPOTIFY_AUTH_URL}/?{url_args}'
-    print(REDIRECT_URI)
     return redirect(auth_url)
 
 
