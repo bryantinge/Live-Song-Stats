@@ -88,6 +88,18 @@ body {
   position: fixed;
 }
 
+#albumImageLoader {
+  display: none;
+}
+
+#lyricLoader {
+  display: none;
+}
+
+#analysisLoader {
+  display: none;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;
