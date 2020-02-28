@@ -54,7 +54,6 @@ def login():
 @app.route('/callback/')
 def callback():
     # Auth: Requests refresh and access tokens
-    print('SUCCESS')
     auth_token = request.args['code']
     code_payload = {
         'grant_type': 'authorization_code',
