@@ -1,4 +1,5 @@
 import os
+import time
 import json
 import requests
 from flask import Flask, request, redirect, render_template, session, url_for
@@ -67,9 +68,9 @@ def callback():
     # Auth: Tokens are Returned to Application
     response_data = json.loads(post_request.text)
     session['access_token'] = response_data['access_token']
-    refresh_token = response_data['refresh_token']
-    token_type = response_data['token_type']
-    expires_in = response_data['expires_in']
+    # refresh_token = response_data['refresh_token']
+    # token_type = response_data['token_type']
+    # expires_in = response_data['expires_in']
 
     # Auth: Use the access token to access Spotify API
     session['authorization_header'] = {
@@ -80,6 +81,8 @@ def callback():
 
 @app.route('/sendtoken')
 def send_token():
+    while session['access_token'] is None:
+        time.sleep(.100)
     return json.dumps(session['access_token'])
 
 

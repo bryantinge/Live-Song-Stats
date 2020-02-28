@@ -86,7 +86,6 @@ function extractTrack(data){
     var albumName = data.item.album.name;
     var albumImageURL = data.item.album.images[1]['url'];
     if (lastTrack != trackName){
-        $('#scriptAlbumImage').hide();
         $('#trackIden').hide();
         $('#lyricBody').hide();
         $('#trackAnalysis').hide();
