@@ -21,9 +21,7 @@ function noTrack(){
     $('#trackIden').hide();
     $('#lyricBody').hide();
     $('#trackAnalysis').hide();
-    $('#albumImageLoader').hide();
     $('#lyricLoader').fadeIn();
-    $('#analysisLoader').hide();
 }
 
 function format(track){
@@ -93,13 +91,11 @@ function extractTrack(data){
         $('#lyricBody').hide();
         $('#trackAnalysis').hide();
         $('#lyricLoader').fadeIn();
-        $('#analysisLoader').fadeIn();
         emptyDOM('all');
         editDOM('#scriptTrack', 'Song: ' + trackName);
         editDOM('#scriptArtist', 'Artist: ' + artistName);
         editDOM('#scriptAlbum', 'Album: ' + albumName);
         $('#scriptAlbumImage').attr('src', albumImageURL);
-        $('#albumImageLoader').hide();
         $('#scriptAlbumImage').fadeIn();
         $('#trackIden').fadeIn();
         getAnalysis(trackID);
@@ -116,7 +112,6 @@ function extractAnalysis(data){
     var trackTempo = String(Math.round(parseFloat(trackTempoRaw)));
     editDOM('#scriptKey', 'Key: ' + trackKey);
     editDOM('#scriptTempo', 'Tempo: ' + trackTempo);
-    $('#analysisLoader').hide();
     $('#trackAnalysis').fadeIn();
 }
 
@@ -162,13 +157,23 @@ var modeList = {
 }
 
 var base_url = window.location.origin;
-var token = getToken();
 let lastTrack = '';
 
-getTrack(token);
+function waitForToken(){
+    if(typeof token !== "undefined"){
+        getTrack();
+    }
+    else{
+        setTimeout(waitForToken, 100);
+    }
+}
+
+var token = getToken();
+waitForToken();
+
 
 $(document).ready(function(){
     $('#getTrack').click(function(){
-        getTrack(token);
+        getTrack();
     })
 })
