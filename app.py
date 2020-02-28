@@ -22,8 +22,7 @@ API_VERSION = 'v1'
 SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}/{API_VERSION}'
 
 # Server-side Parameters
-CLIENT_SIDE_URL = get_env('CLIENT_SIDE_URL')
-REDIRECT_URI = f'{CLIENT_SIDE_URL}/callback/'
+REDIRECT_URI = get_env('REDIRECT_URI')
 SCOPE = 'user-read-currently-playing'
 STATE = ''
 SHOW_DIALOG_bool = True
@@ -55,6 +54,7 @@ def login():
 @app.route('/callback/')
 def callback():
     # Auth: Requests refresh and access tokens
+    print('SUCCESS')
     auth_token = request.args['code']
     code_payload = {
         'grant_type': 'authorization_code',
