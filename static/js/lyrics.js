@@ -165,6 +165,8 @@ var base_url = window.location.origin;
 var token = getToken();
 let lastTrack = '';
 
+getTrack(token);
+
 $(document).ready(function(){
     $('#getTrack').click(function(){
         getTrack(token);
