@@ -1,3 +1,28 @@
+var base_url = window.location.origin;
+var token = '';
+let lastTrack = '';
+
+var keyArray = {
+    '-1': 'No Key Found',
+    '0': 'C',
+    '1': 'C#',
+    '2': 'D',
+    '3': 'D#',
+    '4': 'E',
+    '5': 'F',
+    '6': 'F#',
+    '7': 'G',
+    '8': 'G#',
+    '9': 'A',
+    '10': 'A#',
+    '11': 'B',
+}
+
+var modeList = {
+    '0': 'Minor',
+    '1': 'Major',
+}
+
 function editDOM(identity, text){
     $(identity).append(text);
 }
@@ -31,18 +56,7 @@ function format(track){
     return track;
 }
 
-function getToken(){
-    $.get('/sendtoken') 
-    .done(function(data){
-        token = $.parseJSON(data);
-        return token;
-    })
-    .fail(function(){
-        location.href = base_url;
-    })
-}
-
-function getTrack(){
+function getTrack(token){
     fetch('https://api.spotify.com/v1/me/player/currently-playing', {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -134,45 +148,27 @@ function getLyrics(track, artist){
     )  
 }
 
-var keyArray = {
-    '-1': 'No Key Found',
-    '0': 'C',
-    '1': 'C#',
-    '2': 'D',
-    '3': 'D#',
-    '4': 'E',
-    '5': 'F',
-    '6': 'F#',
-    '7': 'G',
-    '8': 'G#',
-    '9': 'A',
-    '10': 'A#',
-    '11': 'B',
+function getToken() {
+    $.ajax({
+        url : '/sendtoken',
+        type : 'get',
+        async: false,
+        success : function(data) {
+            token = $.parseJSON(data);
+            return token;
+        }
+    });
 }
 
-var modeList = {
-    '0': 'Minor',
-    '1': 'Major',
+function initApp() {
+  getToken();
+  getTrack(token);
 }
-
-var base_url = window.location.origin;
-let lastTrack = '';
-
-function waitForToken(){
-    if(typeof token !== "undefined"){
-        getTrack();
-    }
-    else{
-        setTimeout(waitForToken, 100);
-    }
-}
-
-var token = getToken();
-waitForToken();
-
 
 $(document).ready(function(){
+    initApp();
     $('#getTrack').click(function(){
-        getTrack();
-    })
+      getTrack(token);
+   });
 })
+
