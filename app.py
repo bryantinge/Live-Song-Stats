@@ -9,6 +9,8 @@ from genius import request_song_info, scrape_song_url
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(32)
+app.config['FLASK_ENV'] = get_env('FLASK_ENV')
+app.config['DEBUG'] = get_env('DEBUG')
 
 # Client parameters
 GENIUS_CLIENT_TOKEN = get_env('GENIUS_CLIENT_TOKEN')
@@ -81,8 +83,6 @@ def callback():
 
 @app.route('/sendtoken')
 def send_token():
-    while session['access_token'] is None:
-        time.sleep(.100)
     return json.dumps(session['access_token'])
 
 
@@ -123,7 +123,7 @@ def process():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect("/", code=302)
+    return redirect('/', code=302)
 
 
 if __name__ == '__main__':
