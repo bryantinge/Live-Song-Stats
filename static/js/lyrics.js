@@ -168,7 +168,7 @@ function initApp() {
 $(document).ready(function(){
     initApp();
     $('#getTrack').click(function(){
-      getTrack(token);
+      initApp();
    });
 })
 
