@@ -83,10 +83,8 @@ def callback():
 
 @app.route('/sendtoken')
 def send_token():
-    try:
-        return json.dumps(session['access_token'])
-    except KeyError:
-        return redirect(url_for('login'))
+    print(f'Access token: {session["access_token"]}')
+    return json.dumps(session['access_token'])
 
 
 @app.route('/lyrics')
