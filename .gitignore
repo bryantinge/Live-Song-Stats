@@ -1,7 +1,12 @@
+.elasticbeanstalk
 __pycache__
-archive
 scripts
 venv
 
+.ebignore
 config.py
-keys.py
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
