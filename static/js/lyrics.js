@@ -151,7 +151,7 @@ function getLyrics(track, artist){
 function getToken() {
     $.ajax({
         url: '/sendtoken',
-        type: 'get',
+        type: 'GET',
         async: false,
         success: function(data) {
             token = $.parseJSON(data);
