@@ -7,7 +7,7 @@ from urllib.parse import quote
 from utils import get_env
 from genius import request_song_info, scrape_song_url
 
-app = Flask(__name__)
+application = app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(32)
 app.config['FLASK_ENV'] = get_env('FLASK_ENV')
 
