@@ -150,12 +150,15 @@ function getLyrics(track, artist){
 
 function getToken() {
     $.ajax({
-        url : '/sendtoken',
-        type : 'get',
+        url: '/sendtoken',
+        type: 'get',
         async: false,
-        success : function(data) {
+        success: function(data) {
             token = $.parseJSON(data);
             return token;
+        },
+        error: function() {
+            console.log('Error retrieving token') 
         }
     });
 }
