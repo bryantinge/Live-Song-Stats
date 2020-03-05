@@ -1,5 +1,4 @@
 import os
-import time
 import json
 import requests
 from flask import Flask, request, redirect, render_template, session, url_for
@@ -9,7 +8,8 @@ from genius import request_song_info, scrape_song_url
 
 application = app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(32)
-app.config['FLASK_ENV'] = get_env('FLASK_ENV')
+app.config['ENV'] = get_env('ENV')
+app.config['DEBUG'] = get_env('DEBUG')
 
 # Client parameters
 GENIUS_CLIENT_TOKEN = get_env('GENIUS_CLIENT_TOKEN')
