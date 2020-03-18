@@ -77,7 +77,7 @@ def callback():
     session['authorization_header'] = {
         'Authorization': f'Bearer {session["access_token"]}'
     }
-    return redirect(url_for('lyrics'))
+    return redirect(url_for('viewer'))
 
 
 @app.route('/sendtoken')
@@ -85,9 +85,9 @@ def send_token():
     return json.dumps(session['access_token'])
 
 
-@app.route('/lyrics')
-def lyrics():
-    return render_template('lyrics.html')
+@app.route('/viewer')
+def viewer():
+    return render_template('viewer.html')
 
 
 def get_lyrics(track, artist):
