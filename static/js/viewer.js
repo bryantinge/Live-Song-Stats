@@ -79,7 +79,7 @@ function getTrack(token){
 }
 
 function getAnalysis(trackID){
-    fetch(`https://api.spotify.com/v1/audio-analysis/${trackID}`, {
+    fetch(`https://api.spotify.com/v1/audio-features/${trackID}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -118,9 +118,9 @@ function extractTrack(data){
 }
 
 function extractAnalysis(data){
-    var trackKeyRaw = String(data.track.key);
-    var trackModeRaw = String(data.track.mode);
-    var trackTempoRaw = data.track.tempo;
+    var trackKeyRaw = String(data.key);
+    var trackModeRaw = String(data.mode);
+    var trackTempoRaw = data.tempo;
     var trackKey = keyArray[trackKeyRaw] + ' ' + modeList[trackModeRaw];
     var trackTempo = String(Math.round(parseFloat(trackTempoRaw)));
     editDOM('#scriptKey', 'Key: ' + trackKey);
@@ -129,11 +129,14 @@ function extractAnalysis(data){
 }
 
 function getLyrics(track, artist){
-    $.post('/process', {
-        trackName: track,
-        artistName: artist
-        }, 
-        function(data){
+    $.ajax({
+        url: '/process',
+        type: 'POST',
+        data: {
+            trackName: track,
+            artistName: artist
+        },
+        success: function(data){
             var lyrics = $.parseJSON(data);
             if(typeof lyrics == 'string'){
                 lyrics = lyrics.replace(/\n/g, '<br />');
@@ -144,8 +147,11 @@ function getLyrics(track, artist){
             }
             $('#lyricLoader').hide();
             $('#lyricBody').fadeIn();
+        },
+        error: function() {
+            console.log('Error retrieving lyrics') 
         }
-    )  
+    });
 }
 
 function getToken() {
