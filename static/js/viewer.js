@@ -66,7 +66,7 @@ function getTrack(token){
     })
     .then(data => {
         if(data.currently_playing_type == 'track'){
-            extractTrack(data);
+            extractTrack(token, data);
         }
         else{
             noTrack();
@@ -77,21 +77,7 @@ function getTrack(token){
     })
 }
 
-function getAnalysis(trackID){
-    fetch(`https://api.spotify.com/v1/audio-features/${trackID}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(response => {
-        return response.json();
-    })
-    .then(data => {
-        extractAnalysis(data);
-    })
-}
-
-function extractTrack(data){
+function extractTrack(token, data){
     var trackID = data.item.id;
     var trackName = data.item.name;
     var trackNameRaw = format(trackName);
@@ -110,10 +96,24 @@ function extractTrack(data){
         $('#scriptAlbumImage').attr('src', albumImageURL);
         $('#scriptAlbumImage').fadeIn();
         $('#trackIden').fadeIn();
-        getAnalysis(trackID);
+        getAnalysis(token, trackID);
         getLyrics(trackNameRaw, artistName);
     }
     lastTrack = trackName;
+}
+
+function getAnalysis(token, trackID){
+    fetch(`https://api.spotify.com/v1/audio-features/${trackID}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        extractAnalysis(data);
+    })
 }
 
 function extractAnalysis(data){
