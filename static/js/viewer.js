@@ -1,5 +1,4 @@
 var base_url = window.location.origin;
-var token = '';
 let lastTrack = '';
 
 var keyArray = {
@@ -154,14 +153,13 @@ function getLyrics(track, artist){
     });
 }
 
-function getToken() {
+function getToken(callback) {
     $.ajax({
         url: '/sendtoken',
         type: 'GET',
-        async: false,
         success: function(data) {
-            token = $.parseJSON(data);
-            return token;
+            var token = $.parseJSON(data);
+            callback(token);
         },
         error: function() {
             console.log('Error retrieving token') 
@@ -169,15 +167,10 @@ function getToken() {
     });
 }
 
-function initApp() {
-  getToken();
-  getTrack(token);
-}
-
 $(document).ready(function(){
-    initApp();
+    getToken(getTrack);
     $('#getTrack').click(function(){
-      initApp();
+      getToken(getTrack);
    });
 })
 
