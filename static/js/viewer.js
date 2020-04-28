@@ -1,6 +1,6 @@
 var base_url = window.location.origin;
 let lastTrack = '';
-let loopInterval = ''
+let loopInterval = '';
 
 var keyArray = {
     '-1': 'No Key Found',
