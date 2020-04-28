@@ -45,6 +45,26 @@
               Log Out
             </a>
           </div>
+
+          <div id='loopForm'>
+            <form name='loop' class='loop-form pt-5 pb-3' autocomplete='off'>
+              <h5 class='pb-2'>Track Segment Looper</h5>
+              <div class='form-group'>
+                <input type='text' class='form-control text-center shadow' id='loopStart' 
+                  placeholder='Loop Start Time (Seconds)'>
+              </div>
+              <div class='form-group pb-1'>
+                <input type='text' class='form-control text-center shadow' id='loopEnd' 
+                  placeholder='Loop End Time (Seconds)'>
+              </div>
+              <button type='submit' id='loopFormStart' class='btn btn-success shadow mx-2' onclick='this.blur();'>
+              Start Loop
+              </button>
+              <button type='button' id='loopFormStop' class='btn btn-danger shadow mx-2' onclick='this.blur();'>
+              Stop Loop
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 

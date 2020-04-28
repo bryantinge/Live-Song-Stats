@@ -3,6 +3,22 @@ body {
   background-image: url('../images/dotnoise-light-grey.png');
 }
 
+.form-control {
+  caret-color: transparent;
+  background-color: #F5F5F5;  
+}
+
+.form-control:focus {
+  background-color: #F5F5F5; 
+  border-color: #dc3545;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(220, 53, 69, 0.5);
+}
+
+.loop-form {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
 .btn:focus {
   outline: none;
 }

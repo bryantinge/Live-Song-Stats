@@ -1,5 +1,6 @@
 var base_url = window.location.origin;
 let lastTrack = '';
+let loopInterval = ''
 
 var keyArray = {
     '-1': 'No Key Found',
@@ -147,13 +148,33 @@ function getLyrics(track, artist){
             $('#lyricLoader').hide();
             $('#lyricBody').fadeIn();
         },
-        error: function() {
+        error: function(){
             console.log('Error retrieving lyrics') 
         }
     });
 }
 
-function getToken(callback) {
+// function playTrack(token){
+//     $.ajax({
+//         url: 'https://api.spotify.com/v1/me/player/play',
+//         type: 'PUT',
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     });
+// }
+
+function loopTrack(token, loopStart){
+    $.ajax({
+        url: 'https://api.spotify.com/v1/me/player/seek?position_ms=' + loopStart,
+        type: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}
+
+function getToken(callback){
     $.ajax({
         url: '/sendtoken',
         type: 'GET',
@@ -161,16 +182,60 @@ function getToken(callback) {
             var token = $.parseJSON(data);
             callback(token);
         },
-        error: function() {
+        error: function(){
             console.log('Error retrieving token') 
         }
     });
 }
 
-$(document).ready(function(){
+function getTokenForLoop(callback, loopStart){
+    $.ajax({
+        url: '/sendtoken',
+        type: 'GET',
+        success: function(data) {
+            var token = $.parseJSON(data);
+            // playTrack(token)
+            callback(token, loopStart)
+        },
+        error: function(){
+            console.log('Error retrieving token') 
+        }
+    });
+}
+
+$(function(){
     getToken(getTrack);
     $('#getTrack').click(function(){
-      getToken(getTrack);
-   });
+        getToken(getTrack);
+    });
+    $('#loopForm').submit(function(event){
+        event.preventDefault();
+        clearInterval(loopInterval);
+
+        var loopStart = $('#loopStart').val();
+        if (isNaN(loopStart)){
+            return;
+        }
+        loopStart = loopStart * 1000
+
+        var loopEnd = $('#loopEnd').val();
+        if (isNaN(loopEnd)){
+            return;
+        }
+        loopEnd = loopEnd * 1000
+
+        var loopDuration = loopEnd - loopStart;
+        if (loopDuration < 1000) {
+            return;
+        };
+
+        getTokenForLoop(loopTrack, loopStart);
+        loopInterval = setInterval(function(){
+            getTokenForLoop(loopTrack, loopStart);
+        }, loopDuration);
+    });
+    $('#loopFormStop').click(function(){
+        clearInterval(loopInterval);
+    });
 })
 

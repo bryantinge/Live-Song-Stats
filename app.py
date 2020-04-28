@@ -25,7 +25,7 @@ SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}/{API_VERSION}'
 
 # Server-side Parameters
 REDIRECT_URI = get_env('REDIRECT_URI')
-SCOPE = 'user-read-currently-playing'
+SCOPE = 'user-read-currently-playing user-modify-playback-state'
 STATE = ''
 SHOW_DIALOG_bool = True
 SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
