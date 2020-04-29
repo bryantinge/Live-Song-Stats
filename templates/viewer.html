@@ -6,9 +6,9 @@
   <link rel='icon' href='../static/images/favicon.ico'>
   <link rel='shortcut icon' href='data:image/x-icon;,' type='image/x-icon'>
   <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
-  <link href='../static/css/master.css?v=1.17' rel='stylesheet'> 
+  <link href='../static/css/master.css?v=1.19' rel='stylesheet'> 
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
-  <script type='text/javascript' src='/static/js/viewer.js?v=1.17'></script>
+  <script type='text/javascript' src='/static/js/viewer.js?v=1.19'></script>
 </head>
 
 <html>
@@ -48,22 +48,24 @@
           </div>
 
           <div id='loopForm'>
-            <form name='loop' class='loop-form pt-5 pb-3' autocomplete='off'>
-              <h5 class='pb-3'>Track Segment Looper</h5>
-              <div class='form-group'>
+            <form name='loop' class='no-wrap pt-5 pb-3' autocomplete='off'>
+              <h5 class='no-wrap pb-3'>Track Segment Looper</h5>
+              <div class='form-group loop-input'>
                 <input type='text' class='form-control text-center shadow' id='loopStart' 
-                  placeholder='Loop Start Time (Seconds)'>
+                  placeholder='Start Time (Seconds)'>
               </div>
-              <div class='form-group pb-1'>
+              <div class='form-group loop-input pb-1'>
                 <input type='text' class='form-control text-center shadow' id='loopEnd' 
-                  placeholder='Loop End Time (Seconds)'>
+                  placeholder='End Time (Seconds)'>
               </div>
-              <button type='submit' id='loopFormStart' class='btn btn-success shadow m-2' onclick='this.blur();'>
-              Start Loop
-              </button>
-              <button type='button' id='loopFormStop' class='btn btn-danger shadow m-2' onclick='this.blur();'>
-              Stop Loop
-              </button>
+              <div class=''>
+                <button type='submit' id='loopFormStart' class='btn btn-success shadow m-2' onclick='this.blur();'>
+                Start Loop
+                </button>
+                <button type='button' id='loopFormStop' class='btn btn-danger shadow m-2' onclick='this.blur();'>
+                Stop Loop
+                </button>
+              </div>
             </form>
           </div>
         </div>
