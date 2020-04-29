@@ -154,15 +154,15 @@ function getLyrics(track, artist){
     });
 }
 
-// function playTrack(token){
-//     $.ajax({
-//         url: 'https://api.spotify.com/v1/me/player/play',
-//         type: 'PUT',
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     });
-// }
+function playTrack(token){
+    $.ajax({
+        url: 'https://api.spotify.com/v1/me/player/play',
+        type: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}
 
 function loopTrack(token, loopStart){
     $.ajax({
@@ -174,28 +174,18 @@ function loopTrack(token, loopStart){
     });
 }
 
-function getToken(callback){
+function getToken(callback, loopStart){
     $.ajax({
         url: '/sendtoken',
         type: 'GET',
         success: function(data) {
             var token = $.parseJSON(data);
-            callback(token);
-        },
-        error: function(){
-            console.log('Error retrieving token') 
-        }
-    });
-}
-
-function getTokenForLoop(callback, loopStart){
-    $.ajax({
-        url: '/sendtoken',
-        type: 'GET',
-        success: function(data) {
-            var token = $.parseJSON(data);
-            // playTrack(token)
-            callback(token, loopStart)
+            if (loopStart === undefined){
+                callback(token);
+            }
+            else {
+                callback(token, loopStart)
+            } 
         },
         error: function(){
             console.log('Error retrieving token') 
@@ -208,32 +198,30 @@ $(function(){
     $('#getTrack').click(function(){
         getToken(getTrack);
     });
+
     $('#loopForm').submit(function(event){
         event.preventDefault();
         clearInterval(loopInterval);
-
         var loopStart = $('#loopStart').val();
         if (isNaN(loopStart)){
             return;
         }
         loopStart = loopStart * 1000
-
         var loopEnd = $('#loopEnd').val();
         if (isNaN(loopEnd)){
             return;
         }
         loopEnd = loopEnd * 1000
-
         var loopDuration = loopEnd - loopStart;
         if (loopDuration < 1000) {
             return;
         };
-
-        getTokenForLoop(loopTrack, loopStart);
+        getToken(loopTrack, loopStart);
         loopInterval = setInterval(function(){
-            getTokenForLoop(loopTrack, loopStart);
+            getToken(loopTrack, loopStart);
         }, loopDuration);
     });
+    
     $('#loopFormStop').click(function(){
         clearInterval(loopInterval);
     });
