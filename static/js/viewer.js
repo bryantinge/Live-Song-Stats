@@ -23,6 +23,18 @@ var modeList = {
     '1': 'Major',
 }
 
+function convertHMS(value) {
+    const sec = parseInt(value, 10);
+    let hours   = Math.floor(sec / 3600);
+    let minutes = Math.floor((sec - (hours * 3600)) / 60);
+    let seconds = sec - (hours * 3600) - (minutes * 60);
+    if (hours > 0) {minutes = '0' + minutes;}
+    if (seconds < 10) {seconds = '0' + seconds;}
+    if (hours == 0) {return minutes + ':' + seconds;}
+    else if (minutes == 0) {return ':' + seconds;}
+    else {return hours + ':' + minutes + ':' + seconds;}
+}
+
 function editDOM(identity, text){
     $(identity).append(text);
 }
@@ -36,6 +48,7 @@ function emptyDOM(identity){
         emptyDOM('#lyricBody');
         emptyDOM('#scriptKey');
         emptyDOM('#scriptTempo');
+        emptyDOM('#scriptDuration');
     }
     $(identity).empty();
 }
@@ -120,11 +133,14 @@ function getAnalysis(token, trackID){
 function extractAnalysis(data){
     var trackKeyRaw = String(data.key);
     var trackModeRaw = String(data.mode);
-    var trackTempoRaw = data.tempo;
     var trackKey = keyArray[trackKeyRaw] + ' ' + modeList[trackModeRaw];
+    var trackTempoRaw = data.tempo;
     var trackTempo = String(Math.round(parseFloat(trackTempoRaw)));
+    var trackDurationRaw = data.duration_ms;
+    var trackDuration = convertHMS(trackDurationRaw / 1000) 
     editDOM('#scriptKey', 'Key: ' + trackKey);
     editDOM('#scriptTempo', 'Tempo: ' + trackTempo);
+    editDOM('#scriptDuration', 'Duration: ' + trackDuration);
     $('#trackAnalysis').fadeIn();
 }
 
@@ -201,21 +217,23 @@ $(function(){
 
     $('#loopForm').submit(function(event){
         event.preventDefault();
+        getToken(getTrack);
         clearInterval(loopInterval);
         var loopStart = $('#loopStart').val();
         if (isNaN(loopStart)){
             return;
         }
-        loopStart = loopStart * 1000
+        loopStart = loopStart * 1000;
         var loopEnd = $('#loopEnd').val();
         if (isNaN(loopEnd)){
             return;
         }
-        loopEnd = loopEnd * 1000
+        loopEnd = loopEnd * 1000;
         var loopDuration = loopEnd - loopStart;
         if (loopDuration < 1000) {
             return;
         };
+
         getToken(loopTrack, loopStart);
         loopInterval = setInterval(function(){
             getToken(loopTrack, loopStart);
